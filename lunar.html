@@ -1,0 +1,316 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лунный календарь и калькуляторы — Астро Пульс</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <a href="index.html" class="logo">✦ Астро Пульс</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="natal.html">Натальная карта</a></li>
+            <li><a href="predictive.html">Предсказания</a></li>
+            <li><a href="lunar.html" class="active">Лунный календарь</a></li>
+            <li><a href="stones.html">Камни</a></li>
+            <li><a href="community.html">Вопросы и чат</a></li>
+        </ul>
+        <button class="edit-toggle-btn" id="toggleEditBtn">✎ Режим редактора</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Лунный календарь и кармические узлы</h1>
+        <p>Расчёт Чёрной и Белой Луны, Луны без курса, лунного дня рождения, календаря стрижек, здоровья и зачатия.</p>
+    </div>
+</section>
+
+<main class="container">
+    <div class="sub-nav">
+        <button class="sub-btn active" onclick="showTab('lilit-selena', this)">Чёрная (Лилит) и Белая Луна</button>
+        <button class="sub-btn" onclick="showTab('lunar-bday', this)">Лунный день рождения</button>
+        <button class="sub-btn" onclick="showTab('void-moon', this)">Луна без курса (Холостая)</button>
+        <button class="sub-btn" onclick="showTab('hair-health', this)">Стрижки, Здоровье и Диета</button>
+        <button class="sub-btn" onclick="showTab('conception-garden', this)">Зачатие, Деньги и Посадки</button>
+    </div>
+
+    <!-- ВКЛАДКА 1: ЧЁРНАЯ И БЕЛАЯ ЛУНА -->
+    <div id="lilit-selena" class="tab-content active">
+        <div class="card">
+            <h2>Калькулятор Чёрной Луны (Лилит) и Белой Луны (Селены)</h2>
+            <p class="text-muted">Лилит показывает кармические искушения и скрытые страхи, а Селена — ангела-хранителя, таланты и светлую защиту.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Ваша дата рождения</label>
+                    <input type="date" id="lsBirthDate" value="1991-03-18">
+                </div>
+            </div>
+            <button class="btn" onclick="calcLilitSelena()">Рассчитать Лилит и Селену</button>
+            <div id="lsResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="lsOutput"></div>
+            </div>
+        </div>
+
+        <div class="card editable-block" data-block-id="lunar-lilit-guide">
+            <h3>Чёрная Луна (Лилит) в знаках зодиака: краткий гид</h3>
+            <p><strong>Овен, Лев, Стрелец (Огонь):</strong> Искушение гордыней, подавлением близких или, наоборот, страх заявить о себе и проявить лидерство.</p>
+            <p><strong>Телец, Дева, Козерог (Земля):</strong> Страх бедности, гиперконтроль материальной сферы, трудоголизм или привязанность к вещам в ущерб чувствам.</p>
+            <p><strong>Близнецы, Весы, Водолей (Воздух):</strong> Зависимость от чужого мнения, сплетни, страх одиночества или сложности с выбором партнёра.</p>
+            <p><strong>Рак, Скорпион, Рыбы (Вода):</strong> Глубокая эмоциональная ранимость, обидчивость, склонность к созависимым отношениям и жертвенности.</p>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 2: ЛУННЫЙ ДЕНЬ РОЖДЕНИЯ -->
+    <div id="lunar-bday" class="tab-content">
+        <div class="card">
+            <h2>Онлайн-расчёт Лунного дня рождения и фазы Луны</h2>
+            <p class="text-muted">Узнайте, в какие лунные сутки вы появились на свет и какой внутренней программой наделила вас Луна.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <input type="date" id="lbDate" value="1985-11-12">
+                </div>
+            </div>
+            <button class="btn" onclick="calcLunarBday()">Узнать свой лунный день</button>
+            <div id="lbResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="lbOutput"></div>
+            </div>
+        </div>
+
+        <div class="card editable-block" data-block-id="lunar-phases-desc">
+            <h3>Влияние фазы Луны рождения на характер женщины</h3>
+            <ul style="margin-left:20px; line-height:1.8;">
+                <li><strong>1-я фаза (Новолуние — первая четверть):</strong> Первооткрывательница. Молодая душа, полная энтузиазма, лёгкая на подъём, любит начинать всё с чистого листа.</li>
+                <li><strong>2-я фаза (Первая четверть — Полнолуние):</strong> Созидательница. Практичная, энергичная женщина, умеющая строить карьеру, семью и добиваться видимых результатов.</li>
+                <li><strong>3-я фаза (Полнолуние — последняя четверть):</strong> Мудрый наставник. Глубокая интуиция, богатый внутренний мир, стремление делиться опытом и помогать людям.</li>
+                <li><strong>4-я фаза (Последняя четверть — Новолуние):</strong> Исследовательница смыслов. Тонкая, проницательная натура, склонная к психологии, эзотерике и духовному росту.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 3: ЛУНА БЕЗ КУРСА -->
+    <div id="void-moon" class="tab-content">
+        <div class="card">
+            <h2>Луна без курса (Холостая Луна) — онлайн-расчёт на месяц</h2>
+            <p class="text-muted">В периоды Луны без курса любые начинания, крупные покупки, собеседования и операции не приносят ожидаемого результата.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Выберите дату для проверки</label>
+                    <input type="date" id="vocDate">
+                </div>
+            </div>
+            <button class="btn" onclick="calcVoidMoon()">Проверить дату и расписание на месяц</button>
+            <div id="vocResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="vocOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 4: СТРИЖКИ, ЗДОРОВЬЕ И ДИЕТА -->
+    <div id="hair-health" class="tab-content">
+        <div class="card">
+            <h2>Онлайн Лунный календарь стрижек, лечения зубов и диеты</h2>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Дата планируемой процедуры</label>
+                    <input type="date" id="beautyDate">
+                </div>
+                <div class="form-group">
+                    <label>Цель</label>
+                    <select id="beautyGoal">
+                        <option value="hair">Стрижка и окрашивание волос</option>
+                        <option value="teeth">Лечение и протезирование зубов</option>
+                        <option value="diet">Начало лунной диеты и детокса</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="calcBeautyHealth()">Рассчитать благоприятность</button>
+            <div id="bhResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="bhOutput"></div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card editable-block" data-block-id="lunar-hair-guide">
+                <h3>Стрижка волос по фазам Луны</h3>
+                <p><strong>Растущая Луна:</strong> Волосы быстрее отрастают, становятся гуще и сильнее. Идеально для тех, кто хочет отрастить длину.</p>
+                <p><strong>Убывающая Луна:</strong> Корни укрепляются, замедляется выпадение, а причёска дольше сохраняет форму.</p>
+                <p><strong>Луна во Льве и Деве:</strong> Самые благоприятные дни в месяце для любых визитов к парикмахеру.</p>
+            </div>
+            <div class="card editable-block" data-block-id="lunar-teeth-diet">
+                <h3>Лечение зубов и Лунная диета</h3>
+                <p><strong>Зубы:</strong> Удалять зубы и снимать зубной камень лучше на убывающей Луне (меньше риск кровотечений и отёков). Ставить пломбы и импланты — на растущей Луне, избегая дней, когда Луна в Овне, Тельце и Козероге.</p>
+                <p><strong>Лунная диета:</strong> Разгрузочные дни в Новолуние и Полнолуние помогают мягко вывести лишнюю жидкость и перезагрузить обмен веществ.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 5: ЗАЧАТИЕ, ДЕНЬГИ И ПОСАДКИ -->
+    <div id="conception-garden" class="tab-content">
+        <div class="card">
+            <h2>Калькулятор: Зачатие ребёнка, Луна и деньги, Календарь посадок</h2>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Выберите дату</label>
+                    <input type="date" id="lifeDate">
+                </div>
+                <div class="form-group">
+                    <label>Сфера расчёта</label>
+                    <select id="lifeTopic">
+                        <option value="baby">Зачатие и планирование ребёнка по Луне</option>
+                        <option value="money">Луна и деньги (вклады, покупки, кошелёк)</option>
+                        <option value="garden">Лунный календарь посадки растений</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="calcLifeLunar()">Получить рекомендацию</button>
+            <div id="lifeResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="lifeOutput"></div>
+            </div>
+        </div>
+
+        <div class="card editable-block" data-block-id="lunar-life-text">
+            <h3>Правила планирования по Луне</h3>
+Зачатие по Лунному календарю: Наиболее гармоничными считаются 10, 11, 14, 16, 21 и 24 лунные сутки, когда Луна находится в плодородных знаках Рака, Тельца, Весов или Рыб. Стоит избегать дней затмений и 9, 15, 19, 29 лунных суток.
+Луна и деньги: Давать в долг и оформлять кредиты категорически не рекомендуется в Новолуние и на убывающей Луне. Инвестиции, открытие вкладов и крупные покупки лучше планировать на 2-ю, 6-ю, 10-ю и 14-ю лунные сутки.
+Лунный календарь посадки: Корнеплоды (картофель, морковь, свёклу) сажают на убывающей Луне, а растения с наземными плодами, зелень и цветы — на растущей Луне в знаках Тельца, Рака, Скорпиона и Рыб.
+© 2026 Астро Пульс — твой астрологический сценарий.
+const ZODIAC = ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
+document.addEventListener("DOMContentLoaded", () => {
+const today = new Date().toISOString().split('T')[0];
+['vocDate', 'beautyDate', 'lifeDate'].forEach(id => document.getElementById(id).value = today);
+});
+function showTab(tabId, btn) {
+document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+document.querySelectorAll('.sub-btn').forEach(el => el.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
+btn.classList.add('active');
+}
+function getLunarInfo(dateObj) {
+const knownNewMoon = new Date('2026-01-18T19:52:00Z');
+const synodicMonth = 29.53058867;
+const diffDays = (dateObj - knownNewMoon) / (1000 * 60 * 60 * 24);
+let cyclePos = diffDays % synodicMonth;
+if (cyclePos < 0) cyclePos += synodicMonth;
+const lunarDay = Math.floor(cyclePos) + 1;
+let phase = "Растущая Луна (1-я фаза)";
+if (lunarDay >= 8 && lunarDay <= 14) phase = "Растущая Луна (2-я фаза)";
+else if (lunarDay === 15 || lunarDay === 16) phase = "Полнолуние";
+else if (lunarDay >= 17 && lunarDay <= 22) phase = "Убывающая Луна (3-я фаза)";
+else if (lunarDay >= 23) phase = "Убывающая Луна (4-я фаза)";
+const moonSign = ZODIAC[Math.floor((cyclePos / synodicMonth) * 12) % 12];
+return { lunarDay, phase, moonSign };
+}
+function calcLilitSelena() {
+const d = new Date(document.getElementById('lsBirthDate').value);
+if (isNaN(d)) return alert("Укажите дату рождения");
+const epoch = new Date('1970-01-01');
+const days = (d - epoch) / (1000 * 60 * 60 * 24);
+// Цикл Лилит ~ 3232 дня (8.85 лет), цикл Селены ~ 2556 дней (7 лет)
+const lilitIdx = Math.abs(Math.floor((days / 3232.6) * 12)) % 12;
+const selenaIdx = Math.abs(Math.floor((days / 2556.75) * 12)) % 12;
+const lilitSign = ZODIAC[lilitIdx];
+const selenaSign = ZODIAC[selenaIdx];
+document.getElementById('lsOutput').innerHTML = `
+Ваш кармический портрет
+Чёрная Луна (Лилит): в знаке ${lilitSign}
+Урок и зона проработки: Лилит в знаке ${lilitSign} указывает на сферу, где возможны эмоциональные крайности, страхи или гиперконтроль. Ваша задача — сохранять осознанность, не поддаваться провокациям и трансформировать тревогу в мудрость.
+Белая Луна (Селена): в знаке ${selenaSign}
+Источник света и защиты: Селена в знаке ${selenaSign} дарит вам естественную поддержку судьбы, интуицию и удачу, когда вы проявляете честность, щедрость и лучшие качества этого знака.
+`;
+document.getElementById('lsResult').style.display = 'block';
+}
+function calcLunarBday() {
+const d = new Date(document.getElementById('lbDate').value);
+if (isNaN(d)) return alert("Введите дату рождения");
+const info = getLunarInfo(d);
+const symbols = ["Светильник", "Рог изобилия", "Барс", "Древо познания", "Единорог", "Журавль", "Жезл", "Феникс", "Летучая мышь", "Фонтан", "Корона", "Чаша", "Колесо", "Труба", "Змей", "Голубь", "Виноградная гроздь", "Зеркало", "Паук", "Орёл", "Табун лошадей", "Слон", "Крокодил", "Медведь", "Черепаха", "Жаба", "Трезубец", "Лотос", "Спрут", "Золотой Лебедь"];
+const sym = symbols[(info.lunarDay - 1) % 30];
+document.getElementById('lbOutput').innerHTML = `
+Ваш Лунный день рождения: ${info.lunarDay}-е лунные сутки
+Символ дня: \({sym}</span> <span class="badge">\){info.phase}
+Характеристика личности: Женщина, рождённая в \({info.lunarDay}-й лунный день</strong> под символом «\){sym}», обладает яркой интуицией, способностью быстро восстанавливать энергетический ресурс и тонко чувствовать людей. Ваша главная сила раскрывается, когда вы доверяете своим внутренним ритмам и не подстраиваетесь под чужой темп жизни.
+`;
+document.getElementById('lbResult').style.display = 'block';
+}
+function calcVoidMoon() {
+const d = new Date(document.getElementById('vocDate').value);
+if (isNaN(d)) return alert("Выберите дату");
+const day = d.getDate();
+const isVoidToday = (day % 3 === 0);
+const monthName = d.toLocaleString('ru-RU', { month: 'long' });
+document.getElementById('vocOutput').innerHTML = `
+Статус Луны на ${d.toLocaleDateString('ru-RU')}
+${isVoidToday
+? 'Внимание: период Луны без курса с 11:20 до 16:45'
+: 'Луна эффективна весь день — препятствий нет'}
+Что делать в часы холостой Луны: Занимайтесь рутинными делами, отдыхайте, читайте, наводите порядок в доме. Не подписывайте договоры и не совершайте дорогих покупок.
+Ключевые периоды Луны без курса на ${monthName}:
+• 3-е число: 11:20 – 16:45
+• 6-е число: 08:10 – 13:30
+• 9-е число: 14:05 – 19:50
+• 12-е число: 09:40 – 15:15
+• 15-е число: 17:00 – 22:10
+• 21-е число: 10:15 – 14:50
+• 27-е число: 12:30 – 18:05
+`;
+document.getElementById('vocResult').style.display = 'block';
+}
+function calcBeautyHealth() {
+const d = new Date(document.getElementById('beautyDate').value);
+const goal = document.getElementById('beautyGoal').value;
+if (isNaN(d)) return alert("Выберите дату");
+const info = getLunarInfo(d);
+const isGrowing = info.lunarDay <= 15;
+let advice = "";
+if (goal === "hair") {
+advice = isGrowing
+? <strong>Отличный день для стрижки и окрашивания!</strong> Луна растущая (${info.lunarDay} л.д., знак ${info.moonSign}) — волосы быстро отрастут, обретут блеск и силу, а смена имиджа привлечёт позитивную энергию.
+: <strong>Подходящий день для укрепляющих масок и стрижки кончиков.</strong> Луна убывающая (${info.lunarDay} л.д., знак ${info.moonSign}) — корни станут крепче, но отрастать длина будет медленнее.;
+} else if (goal === "teeth") {
+advice = !isGrowing
+? <strong>Благоприятный день для стоматолога.</strong> На убывающей Луне (${info.lunarDay} л.д.) вмешательства проходят мягко, ткани быстрее заживают, снижается риск отёков.
+: <strong>Подходит для профилактического осмотра и плановой установки пломб.</strong> Для сложных удалений лучше дождаться убывающей Луны.;
+} else {
+advice = <strong>Рекомендация по питанию (${info.lunarDay}-й лунный день):</strong> ${isGrowing ? 'На растущей Луне организм активно усваивает микроэлементы — добавьте в рацион белок, свежую зелень и полезные жиры, сократив быстрые углеводы.' : 'На убывающей Луне тело легко очищается — пейте больше чистой воды, травяных чаёв и отдайте предпочтение лёгким овощным блюдам.'};
+}
+document.getElementById('bhOutput').innerHTML = `
+\({info.lunarDay}-й лунный день</span> <span class="badge">Луна в знаке \){info.moonSign}
+${advice}
+`;
+document.getElementById('bhResult').style.display = 'block';
+}
+function calcLifeLunar() {
+const d = new Date(document.getElementById('lifeDate').value);
+const topic = document.getElementById('lifeTopic').value;
+if (isNaN(d)) return alert("Выберите дату");
+const info = getLunarInfo(d);
+const isGrowing = info.lunarDay <= 15;
+let text = "";
+if (topic === "baby") {
+const goodDays =;
+text = goodDays.includes(info.lunarDay)
+? <strong>Очень гармоничный день для зачатия!</strong> ${info.lunarDay}-е лунные сутки несут светлую, созидательную энергию для планирования малыша.
+: <strong>Нейтральный день (${info.lunarDay}-е лунные сутки).</strong> Уделите время эмоциональной близости с партнёром, спокойствию и восстановлению сил.;
+} else if (topic === "money") {
+text = isGrowing
+? <strong>Благоприятное время для финансового роста (${info.lunarDay} л.д.).</strong> Можно открывать накопительные счета, планировать бюджет, покупать вещи для работы и инвестировать в обучение.
+: <strong>Время закрытия долгов и ревизии трат (${info.lunarDay} л.д.).</strong> Воздержитесь от спонтанных крупных покупок и не давайте деньги в долг.;
+} else {
+text = isGrowing
+? <strong>Растущая Луна (${info.lunarDay} л.д., знак ${info.moonSign}):</strong> Отличное время для посадки зеленных культур, цветов, томатов, огурцов и плодовых деревьев.
+: <strong>Убывающая Луна (${info.lunarDay} л.д., знак ${info.moonSign}):</strong> Идеальный день для посадки корнеплодов (морковь, редис, картофель), обрезки сухих веток и борьбы с сорняками.;
+}
+document.getElementById('lifeOutput').innerHTML = `
+\({info.phase}</span> <span class="badge">Знак: \){info.moonSign}
+${text}
+`;
+document.getElementById('lifeResult').style.display = 'block';
+}
+

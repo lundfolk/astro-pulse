@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предсказательная астрология — Астро Пульс</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <a href="index.html" class="logo">✦ Астро Пульс</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="natal.html">Натальная карта</a></li>
+            <li><a href="predictive.html" class="active">Предсказания</a></li>
+            <li><a href="lunar.html">Лунный календарь</a></li>
+            <li><a href="stones.html">Камни</a></li>
+            <li><a href="community.html">Вопросы и чат</a></li>
+        </ul>
+        <button class="edit-toggle-btn" id="toggleEditBtn">✎ Режим редактора</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Предсказательная астрология и Синастрия</h1>
+        <p>Индивидуальный прогноз событий, анализ годового Соляра, совместимость партнёров и расчёт планетарных часов.</p>
+    </div>
+</section>
+
+<main class="container">
+    <!-- Навигация по методам -->
+    <div class="sub-nav">
+        <button class="sub-btn active" onclick="showTab('transits', this)">Транзиты и Прогрессии</button>
+        <button class="sub-btn" onclick="showTab('solar', this)">Соляр и Дирекции</button>
+        <button class="sub-btn" onclick="showTab('synastry', this)">Синастрия (Совместимость)</button>
+        <button class="sub-btn" onclick="showTab('hours', this)">Планеты сейчас и Часы</button>
+        <button class="sub-btn" onclick="showTab('theory', this)">База знаний прогнозирования</button>
+    </div>
+
+    <!-- ВКЛАДКА 1: ТРАНЗИТЫ И ПРОГРЕССИИ -->
+    <div id="transits" class="tab-content active">
+        <div class="card">
+            <h2>Онлайн-расчёт Транзитов и Вторичных Прогрессий</h2>
+            <p class="text-muted">Узнайте, какие внешние обстоятельства и внутренние перемены формируют вашу текущую жизненную ситуацию.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Ваша дата рождения</label>
+                    <input type="date" id="trBirthDate" value="1990-05-15">
+                </div>
+                <div class="form-group">
+                    <label>Дата прогноза</label>
+                    <input type="date" id="trTargetDate">
+                </div>
+                <div class="form-group">
+                    <label>Метод анализа</label>
+                    <select id="trMethod">
+                        <option value="transit">Транзиты планет (внешние события)</option>
+                        <option value="progression">Вторичные прогрессии (внутреннее созревание)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="calculateTransits()">Рассчитать прогноз</button>
+
+            <div id="transitResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="transitOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 2: СОЛЯР И ДИРЕКЦИИ -->
+    <div id="solar" class="tab-content">
+        <div class="card">
+            <h2>Соляр на год и Символические Дирекции</h2>
+            <p class="text-muted">Соляр включается в момент вашего дня рождения и задаёт главный сценарий на ближайшие 12 месяцев.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <input type="date" id="solBirthDate" value="1988-09-20">
+                </div>
+                <div class="form-group">
+                    <label>Год расчёта Соляра</label>
+                    <input type="number" id="solYear" value="2026" min="1950" max="2050">
+                </div>
+                <div class="form-group">
+                    <label>Город встречи дня рождения</label>
+                    <select id="solCity"></select>
+                </div>
+            </div>
+            <button class="btn" onclick="calculateSolar()">Построить Соляр и Дирекции</button>
+
+            <div id="solarResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="solarOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 3: СИНАСТРИЯ -->
+    <div id="synastry" class="tab-content">
+        <div class="card">
+            <h2>Синастрия — анализ совместимости партнёров</h2>
+            <p class="text-muted">Сравнение натальных карт для оценки эмоциональной гармонии, бытовой совместимости и потенциала отношений.</p>
+            <div class="form-grid" style="margin-top:20px;">
+                <div class="form-group">
+                    <label>Ваше имя</label>
+                    <input type="text" id="synName1" value="Елена">
+                </div>
+                <div class="form-group">
+                    <label>Ваша дата рождения</label>
+                    <input type="date" id="synDate1" value="1992-07-10">
+                </div>
+                <div class="form-group">
+                    <label>Имя партнёра</label>
+                    <input type="text" id="synName2" value="Александр">
+                </div>
+                <div class="form-group">
+                    <label>Дата рождения партнёра</label>
+                    <input type="date" id="synDate2" value="1989-11-04">
+                </div>
+            </div>
+            <button class="btn" onclick="calculateSynastry()">Проверить совместимость</button>
+
+            <div id="synastryResult" style="display:none; margin-top:25px;">
+                <div class="result-box" id="synastryOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 4: ПЛАНЕТЫ СЕЙЧАС И ПЛАНЕТАРНЫЕ ЧАСЫ -->
+    <div id="hours" class="tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <h2>Планеты сейчас (Текущее небо)</h2>
+                <p class="text-muted" style="margin-bottom:15px;">Актуальное положение небесных тел и общий фон дня:</p>
+                <div id="currentPlanetsList"></div>
+            </div>
+            <div class="card">
+                <h2>Калькулятор Планетарных часов</h2>
+                <p class="text-muted" style="margin-bottom:15px;">Каждый час суток управляется определённой планетой, усиливающей нужные вам дела.</p>
+                <div class="form-group">
+                    <label>Выберите время для планирования дела</label>
+                    <input type="time" id="planHourInput" value="14:00">
+                </div>
+                <button class="btn" onclick="calculatePlanetaryHour()">Определить планету часа</button>
+                <div id="hourResult" class="result-box" style="margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 5: ПОДРОБНАЯ БАЗА ЗНАНИЙ -->
+    <div id="theory" class="tab-content">
+        <div class="card editable-block" data-block-id="pred-theory-1">
+            <h2>Транзиты: как читать внешние события</h2>
+            <p>Транзиты показывают реальное движение планет по небу относительно вашей натальной карты. Медленные планеты (Сатурн, Уран, Нептун, Плутон) формируют фундаментальные жизненные перемены длительностью от нескольких месяцев до двух лет. Быстрые планеты (Луна, Меркурий, Венера, Марс) выступают спусковым крючком, включающим события в конкретные дни.</p>
+            <p><strong>Совет для женщин:</strong> В напряжённые транзиты Сатурна не бойтесь отсекать лишние обязательства — эта планета помогает выстроить здоровые личные границы и укрепить самооценку.</p>
+        </div>
+
+        <div class="card editable-block" data-block-id="pred-theory-2">
+            <h2>Дирекции и Прогрессии: внутренние часы судьбы</h2>
+            <p><strong>Символические дирекции (1 градус = 1 год жизни)</strong> отвечают за масштабные, судьбоносные вехи: вступление в брак, рождение детей, смену социального статуса или переезд. Если дирекционная планета не делает точного аспекта к натальной карте, крупного события в этой сфере не произойдёт, даже при ярких транзитах.</p>
+            <p><strong>Вторичные прогрессии (1 день после рождения = 1 год жизни)</strong> отражают эволюцию вашей души, смену интересов, эмоциональных потребностей и приоритетов. Например, переход прогрессивной Луны в новый знак меняет ваше внутреннее состояние каждые 2,5 года.</p>
+        </div>
+
+        <div class="card editable-block" data-block-id="pred-theory-3">
+            <h2>Соляр: ваш персональный Новый год</h2>
+            <p>Соляр строится на точный момент возвращения транзитного Солнца в градус и минуту вашего рождения. Положение солярного Асцендента и скопление планет в домах Соляра указывают на главную тему года: карьерный взлёт, фокус на семье, обучение или финансовое масштабирование.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Астро Пульс — твой астрологический сценарий.</p>
+    </div>
+</footer>
+
+<script src="cities.js"></script>
+<script src="editor.js"></script>
+<script>
+    // Заполнение городов и текущей даты
+    document.addEventListener("DOMContentLoaded", () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('trTargetDate').value = today;
+
+        const solCity = document.getElementById('solCity');
+        if (typeof WORLD_CITIES !== 'undefined') {
+            WORLD_CITIES.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.name;
+                opt.textContent = `${c.name} (${c.country})`;
+                solCity.appendChild(opt);
+            });
+        }
+        renderCurrentPlanets();
+        calculatePlanetaryHour();
+    });
+
+    function showTab(tabId, btn) {
+document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+document.querySelectorAll('.sub-btn').forEach(el => el.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
+btn.classList.add('active');
+}
+const ZODIAC = ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
+function calculateTransits() {
+const bDate = new Date(document.getElementById('trBirthDate').value);
+const tDate = new Date(document.getElementById('trTargetDate').value);
+const method = document.getElementById('trMethod').value;
+if (isNaN(bDate) || isNaN(tDate)) return alert("Укажите обе даты");
+const diffDays = Math.floor((tDate - bDate) / (1000 * 60 * 60 * 24));
+const age = (diffDays / 365.25).toFixed(1);
+const signIndex = Math.abs(Math.floor(diffDays / 29.5)) % 12;
+const activeSign = ZODIAC[signIndex];
+let html = "";
+if (method === "transit") {
+html = `
+Актуальные транзиты на ${tDate.toLocaleDateString('ru-RU')} (Возраст: ${age} лет)
+Ключевой акцент периода: Транзитный Юпитер и Венера активируют сферу знака ${activeSign}.
+• Транзитная Венера в трине к натальному Солнцу: Гармоничное время для ухода за собой, обновления гардероба, налаживания личной жизни и получения приятных подарков.
+• Транзитный Сатурн в секстиле к Луне: Эмоциональная устойчивость, успешное решение вопросов с недвижимостью и поддержка старших родственников.
+• Транзитный Марс в квадрате к Меркурию: Возможна спешка в переписке и мелкие споры. Старайтесь не принимать импульсивных решений в течение ближайших 5 дней.
+Рекомендация: Направьте энергию в творчество, обучение и укрепление финансовых договорённостей.
+; } else { const progSign = ZODIAC[(bDate.getMonth() + Math.floor(age / 2.5)) % 12]; html = 
+Вторичные прогрессии (Возраст: ${age} лет)
+Прогрессивная Луна находится в знаке: ${progSign}
+В ближайшие 2,5 года ваши главные эмоциональные потребности и фокус внимания сосредоточены на темах знака ${progSign}. Вы пересматриваете привычные реакции, учитесь по-новому выстраивать близость и находите свежие источники вдохновения.
+Прогрессивное Солнце: Сформировало гармоничный аспект к натальной Венере — период расцвета женственности, признания ваших талантов и гармонизации самооценки.
+`;
+}
+document.getElementById('transitOutput').innerHTML = html;
+document.getElementById('transitResult').style.display = 'block';
+}
+function calculateSolar() {
+const bDate = new Date(document.getElementById('solBirthDate').value);
+const year = parseInt(document.getElementById('solYear').value);
+const city = document.getElementById('solCity').value;
+if (isNaN(bDate)) return alert("Введите дату рождения");
+const age = year - bDate.getFullYear();
+const ascIndex = (bDate.getDate() + year + city.length) % 12;
+const solarAsc = ZODIAC[ascIndex];
+const houseFocus = ((year + bDate.getMonth()) % 12) + 1;
+const html = `
+Соляр на ${year} год (Город встречи: ${city})
+Асцендент Соляра: \({solarAsc}</span> <span class="badge">Главный дом года: \){houseFocus}-й дом
+Главная тема вашего личного года: Положение Асцендента Соляра в знаке \({solarAsc}</strong> наделяет вас инициативой и внутренней опорой. Акцент на <strong>\){houseFocus}-м доме говорит о том, что основные события развернутся в сферах самореализации, финансов и личных достижений.
+Символические дирекции (${age}° дуги): Дирекционное Солнце образует благоприятный аспект к куспиду 10-го дома. Отличный год для карьерного роста, запуска собственного проекта или укрепления авторитета в обществе.
+`;
+document.getElementById('solarOutput').innerHTML = html;
+document.getElementById('solarResult').style.display = 'block';
+}
+function calculateSynastry() {
+const n1 = document.getElementById('synName1').value || "Партнёр 1";
+const n2 = document.getElementById('synName2').value || "Партнёр 2";
+const d1 = new Date(document.getElementById('synDate1').value);
+const d2 = new Date(document.getElementById('synDate2').value);
+if (isNaN(d1) || isNaN(d2)) return alert("Укажите даты рождения обоих партнёров");
+const score = 72 + ((d1.getDate() + d2.getDate()) % 25);
+const html = `
+Синастрия: ${n1} и ${n2}
+Общий индекс гармоничности союза: ${score}%
+• Эмоциональная связь (Луна — Венера): Высокое душевное притяжение. Партнёры тонко чувствуют настроение друг друга и умеют создавать уют в доме.
+• Романтика и страсть (Венера — Марс): Сильная взаимная симпатия, поддерживающая интерес в паре на протяжении долгих лет.
+• Зона роста (Сатурн — Солнце): Важно распределять бытовые и финансовые обязанности заранее, уважая личное пространство каждого.
+`;
+document.getElementById('synastryOutput').innerHTML = html;
+document.getElementById('synastryResult').style.display = 'block';
+}
+function renderCurrentPlanets() {
+const now = new Date();
+const day = now.getDate();
+const planets = [
+{ name: "☉ Солнце", sign: ZODIAC[(now.getMonth() + 8) % 12], deg: (day % 29) + 1 },
+{ name: "☽ Луна", sign: ZODIAC[(day * 2) % 12], deg: (day * 3) % 29 + 1 },
+{ name: "☿ Меркурий", sign: ZODIAC[(now.getMonth() + 8) % 12], deg: (day + 5) % 29 + 1 },
+{ name: "♀ Венера", sign: ZODIAC[(now.getMonth() + 9) % 12], deg: (day + 11) % 29 + 1 },
+{ name: "♂ Марс", sign: ZODIAC[(now.getMonth() + 4) % 12], deg: (day + 3) % 29 + 1 },
+{ name: "♃ Юпитер", sign: "Близнецы", deg: 18 },
+{ name: "♄ Сатурн", sign: "Рыбы", deg: 14 }
+];
+document.getElementById('currentPlanetsList').innerHTML = planets.map(p =>
+<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"> <strong>${p.name}</strong> <span>${p.deg}° ${p.sign}</span> </div>
+).join('');
+}
+function calculatePlanetaryHour() {
+const timeVal = document.getElementById('planHourInput').value || "12:00";
+const hour = parseInt(timeVal.split(':')[0], 10);
+const chaldeanOrder = [
+{ planet: "Сатурн", desc: "Подходит для работы с документами, планирования, наведения порядка и завершения сложных задач. Не подходит для старта новых проектов." },
+{ planet: "Юпитер", desc: "Счастливый час для переговоров, обращения к руководству, финансовых инвестиций, обучения и дальних поездок." },
+{ planet: "Марс", desc: "Время активных действий, спорта, преодоления препятствий. Избегайте конфликтов и острых споров." },
+{ planet: "Солнце", desc: "Час успеха, самопрезентации, творчества и важных встреч. Вас легко замечают и поддерживают." },
+{ planet: "Венера", desc: "Идеально для свиданий, покупок, бьюти-процедур, примирения и творческих занятий." },
+{ planet: "Меркурий", desc: "Лучшее время для звонков, писем, рекламы, поездок по городу, учёбы и заключения сделок." },
+{ planet: "Луна", desc: "Время отдыха, домашних дел, общения с семьёй, интуитивных практик и заботы о здоровье." }
+];
+const current = chaldeanOrder[hour % 7];
+document.getElementById('hourResult').innerHTML = `
+В \({timeVal} управляет:</strong> <span class="badge">Планета \){current.planet}
+${current.desc}
+`;
+}
+
+

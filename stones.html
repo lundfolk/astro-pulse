@@ -1,0 +1,103 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камни по знакам зодиака — Астро Пульс</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <a href="index.html" class="logo">✦ Астро Пульс</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="natal.html">Натальная карта</a></li>
+            <li><a href="predictive.html">Предсказания</a></li>
+            <li><a href="lunar.html">Лунный календарь</a></li>
+            <li><a href="stones.html" class="active">Камни</a></li>
+            <li><a href="community.html">Вопросы и чат</a></li>
+        </ul>
+        <button class="edit-toggle-btn" id="toggleEditBtn">✎ Режим редактора</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Драгоценные и полудрагоценные камни по знакам зодиака</h1>
+        <p>Подбор природных минералов-талисманов для гармонии, женской энергии, финансового потока и защиты.</p>
+    </div>
+</section>
+
+<main class="container">
+    <div class="card">
+        <h2>Интерактивный подбор камня-талисмана</h2>
+        <div class="form-grid" style="margin-top:15px;">
+            <div class="form-group">
+                <label>Выберите ваш знак зодиака (или знак Асцендента / Луны)</label>
+                <select id="stoneZodiacSelect" onchange="renderStones()">
+                    <option value="all">Показать все 12 знаков зодиака</option>
+                    <option value="Овен">♈ Овен</option>
+                    <option value="Телец">♉ Телец</option>
+                    <option value="Близнецы">♊ Близнецы</option>
+                    <option value="Рак">♋ Рак</option>
+                    <option value="Лев">♌ Лев</option>
+                    <option value="Дева">♍ Дева</option>
+                    <option value="Весы">♎ Весы</option>
+                    <option value="Скорпион">♏ Скорпион</option>
+                    <option value="Стрелец">♐ Стрелец</option>
+                    <option value="Козерог">♑ Козерог</option>
+                    <option value="Водолей">♒ Водолей</option>
+                    <option value="Рыбы">♓ Рыбы</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-3" id="stonesContainer"></div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Астро Пульс — твой астрологический сценарий.</p>
+    </div>
+</footer>
+
+<script src="editor.js"></script>
+<script>
+    const STONES_DATA = [
+        { sign: "♈ Овен", precious: "Бриллиант, Рубин", semi: "Гранат, Сердолик, Красная яшма", desc: "Усиливают уверенность в себе, помогают направлять огненную энергию в созидание, защищают от эмоционального выгорания." },
+        { sign: "♉ Телец", precious: "Изумруд, Сапфир", semi: "Розовый кварц, Авантюрин, Малахит", desc: "Привлекают материальное благополучие, раскрывают женскую мягкость, дарят внутреннее спокойствие и гармонию в любви." },
+        { sign: "♊ Близнецы", precious: "Александрит, Изумруд", semi: "Цитрин, Агат, Тигровый глаз", desc: "Помогают структурировать мысли, усиливают обаяние в переговорах, приносят удачу в поездках и обучении." },
+        { sign: "♋ Рак", precious: "Жемчуг, Изумруд", semi: "Лунный камень (Адуляр), Аквамарин, Халцедон", desc: "Укрепляют интуицию, гармонизируют семейные отношения, снимают тревожность и оберегают женское здоровье." },
+        { sign: "♌ Лев", precious: "Рубин, Бриллиант, Жёлтый сапфир", semi: "Янтарь, Цитрин, Солнечный камень", desc: "Раскрывают харизму, притягивают успех в карьере и творчестве, наполняют жизнерадостностью и щедростью." },
+        { sign: "♍ Дева", precious: "Сапфир, Изумруд", semi: "Хризолит (Перидот), Нефрит, Сердолик", desc: "Помогают отпустить перфекционизм, поддерживают жизненный тонус, приносят ясность в финансовых и рабочих делах." },
+        { sign: "♎ Весы", precious: "Опал, Бриллиант, Турмалин", semi: "Розовый кварц, Лазурит, Аметист", desc: "Помогают принимать верные решения, притягивают гармоничное партнёрство и усиливают природное чувство стиля." },
+        { sign: "♏ Скорпион", precious: "Чёрный опал, Рубин, Александрит", semi: "Гранат, Обсидиан, Раухтопаз", desc: "Служат мощным энергетическим щитом, помогают проходить периоды трансформации и усиливают магнетизм." },
+        { sign: "♐ Стрелец", precious: "Синий сапфир, Топаз", semi: "Бирюза, Лазурит, Хризоколла", desc: "Открывают новые горизонты, приносят удачу в путешествиях, расширяют кругозор и поддерживают оптимизм." },
+        { sign: "♑ Козерог", precious: "Рубин, Чёрный бриллиант", semi: "Горный хрусталь, Оникс, Малахит", desc: "Укрепляют внутренний стержень, помогают достигать высоких карьерных целей, сохраняя баланс между работой и отдыхом." },
+        { sign: "♒ Водолей", precious: "Сапфир, Аквамарин", semi: "Аметист, Флюорит, Лабрадорит", desc: "Стимулируют нестандартное мышление, защищают нервную систему от перегрузок и привлекают единомышленников." },
+        { sign: "♓ Рыбы", precious: "Жемчуг, Аквамарин, Изумруд", semi: "Аметист, Лунный камень, Опал", desc: "Углубляют творческое вдохновение, защищают от чужого негатива и помогают воплощать мечты в реальность." }
+    ];
+
+    function renderStones() {
+        const filter = document.getElementById('stoneZodiacSelect').value;
+        const container = document.getElementById('stonesContainer');
+        const list = filter === 'all' ? STONES_DATA : STONES_DATA.filter(item => item.sign.includes(filter));
+
+        container.innerHTML = list.map((item, idx) => `
+            <div class="card editable-block" data-block-id="stone-card-${idx}">
+                <h3 style="color:var(--primary-blue); margin-bottom:10px;">${item.sign}</h3>
+                <p style="margin-bottom:6px;"><span class="badge">Драгоценные</span> <strong>${item.precious}</strong></p>
+                <p style="margin-bottom:12px;"><span class="badge" style="background:var(--accent-orange);">Полудрагоценные</span> <strong>${item.semi}</strong></p>
+                <p class="text-muted">${item.desc}</p>
+            </div>
+        `).join('');
+    }
+
+    document.addEventListener("DOMContentLoaded", renderStones);
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопросы, обсуждения и связь — Астро Пульс</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <a href="index.html" class="logo">✦ Астро Пульс</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="natal.html">Натальная карта</a></li>
+            <li><a href="predictive.html">Предсказания</a></li>
+            <li><a href="lunar.html">Лунный календарь</a></li>
+            <li><a href="stones.html">Камни</a></li>
+            <li><a href="community.html" class="active">Вопросы и чат</a></li>
+        </ul>
+        <button class="edit-toggle-btn" id="toggleEditBtn">✎ Режим редактора</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Частые вопросы, обсуждения и запись к астрологу</h1>
+        <p>Задайте вопрос по вашей карте, пообщайтесь с единомышленницами или закажите индивидуальный разбор.</p>
+    </div>
+</section>
+
+<main class="container">
+    <div class="grid-2">
+        <!-- ЧАСТЫЕ ВОПРОСЫ (FAQ) -->
+        <div>
+            <div class="card editable-block" data-block-id="faq-block">
+                <h2>Частые вопросы (FAQ)</h2>
+                
+                <div style="margin-top:20px; border-bottom:1px solid var(--border); padding-bottom:15px;">
+                    <h4 style="color:var(--primary-blue);">1. Что делать, если я не знаю точное время рождения?</h4>
+                    <p class="text-muted" style="margin-top:6px;">Вы всё равно можете построить космограмму (положение планет в знаках), рассчитать Чёрную и Белую Луну, а также совместимость. Для определения Асцендента и сетки домов проводится ректификация — уточнение времени по важным событиям вашей жизни.</p>
+                </div>
+
+                <div style="margin-top:15px; border-bottom:1px solid var(--border); padding-bottom:15px;">
+                    <h4 style="color:var(--primary-blue);">2. Влияет ли переезд в другой город на судьбу?</h4>
+                    <p class="text-muted" style="margin-top:6px;">Да. Базовый потенциал натальной карты остаётся с вами, но при переезде (релокации) смещается сетка домов. В одном городе на первый план выходит карьера, а в другом — личная жизнь или творчество.</p>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <h4 style="color:var(--primary-blue);">3. Как часто нужно делать прогноз Соляра?</h4>
+                    <p class="text-muted" style="margin-top:6px;">Соляр рассчитывается один раз в год, за 2–3 недели до вашего дня рождения. Это помогает выбрать лучший город для встречи личного Нового года и составить стратегию на 12 месяцев.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+        <div>
+            <div class="card">
+                <h2>Форма обратной связи и запись на консультацию</h2>
+                <p class="text-muted" style="margin-bottom:20px;">Оставьте ваши данные, и астролог свяжется с вами для уточнения деталей разбора.</p>
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" id="fbName" placeholder="Например, Анна" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Контакт (Telegram, WhatsApp или Email)</label>
+                        <input type="text" id="fbContact" placeholder="@username или +7..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Интересующая тема</label>
+                        <select id="fbTopic">
+                            <option>Полный разбор натальной карты</option>
+                            <option>Прогноз Соляр на год</option>
+                            <option>Синастрия (совместимость в паре)</option>
+                            <option>Карта релокации (выбор города)</option>
+                            <option>Вопрос по работе сайта</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Дата, время и город рождения (или текст вопроса)</label>
+                        <textarea id="fbMessage" rows="3" placeholder="12.04.1988, 14:30, Москва..."></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%;">Отправить заявку</button>
+                    <div id="fbSuccess" class="result-box" style="display:none; margin-top:15px; background:#ecfdf5; border-color:#10b981; color:#065f46;">
+                        Благодарим! Ваше сообщение отправлено. Мы ответим вам в ближайшее время.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЖИВЫЕ ОБСУЖДЕНИЯ -->
+    <div class="card" style="margin-top:30px;">
+        <h2>Клуб «Астро Пульс»: обсуждения и обмен опытом</h2>
+        <p class="text-muted" style="margin-bottom:20px;">Поделитесь своими наблюдениями о транзитах, лунном календаре или задайте вопрос участницам сообщества.</p>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Ваше имя</label>
+                <input type="text" id="chatAuthor" placeholder="Мария">
+            </div>
+            <div class="form-group">
+                <label>Ваш знак зодиака</label>
+                <input type="text" id="chatSign" placeholder="Например, Весы">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Сообщение</label>
+            <textarea id="chatText" rows="2" placeholder="Напишите ваш комментарий или вопрос..."></textarea>
+        </div>
+        <button class="btn" onclick="addDiscussionPost()">Опубликовать в обсуждении</button>
+
+        <div id="discussionList" style="margin-top:30px; display:flex; flex-direction:column; gap:15px;"></div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Астро Пульс — твой астрологический сценарий.</p>
+    </div>
+</footer>
+
+<script src="editor.js"></script>
+<script>
+    // Обработка формы обратной связи
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('fbSuccess').style.display = 'block';
+        this.reset();
+    });
+
+    // Логика обсуждений с сохранением в браузере
+    const defaultPosts = [
+        { author: "Екатерина", sign: "Телец", date: "Сегодня, 14:15", text: "Девочки, начала стричь волосы строго по лунному календарю на растущую Луну во Льве — за полгода качество волос изменилось невероятно!" },
+        { author: "Ольга", sign: "Скорпион", date: "Вчера, 19:40", text: "Рассчитала здесь свою Чёрную Луну и Парс Фортуны. Очень точное попадание в мою ситуацию с работой и финансами. Спасибо за подробные трактовки!" }
+    ];
+
+    function renderDiscussions() {
+        const saved = JSON.parse(localStorage.getItem('astro_discussions')) || defaultPosts;
+        const container = document.getElementById('discussionList');
+        container.innerHTML = saved.map(post => `
+            <div style="background:var(--bg-light); padding:18px; border-radius:10px; border-left:4px solid var(--sky-blue);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <strong>${post.author} <span class="badge" style="margin-left:8px;">${post.sign}</span></strong>
+                    <span class="text-muted" style="font-size:0.85rem;">${post.date}</span>
+                </div>
+                <p>${post.text}</p>
+            </div>
+        `).join('');
+    }
+
+    function addDiscussionPost() {
+        const author = document.getElementById('chatAuthor').value.trim() || "Гостья";
+        const sign = document.getElementById('chatSign').value.trim() || "Астролюбитель";
+        const text = document.getElementById('chatText').value.trim();
+        if (!text) return alert("Введите текст сообщения");
+
+        const saved = JSON.parse(localStorage.getItem('astro_discussions')) || defaultPosts;
+        saved.unshift({
+            author,
+            sign,
+            date: "Только что",
+            text
+        });
+        localStorage.setItem('astro_discussions', JSON.stringify(saved));
+        document.getElementById('chatText').value = "";
+        renderDiscussions();
+    }
+
+    document.addEventListener("DOMContentLoaded", renderDiscussions);
+</script>
+</body>
+</html>

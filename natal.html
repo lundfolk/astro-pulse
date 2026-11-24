@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Натальная карта — Астро Пульс</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="site-header"></header>
+
+    <div class="container page-layout">
+        <!-- Боковая навигация по всем подразделам Натальной карты -->
+        <aside class="sidebar">
+            <h3>Натальная карта</h3>
+            <ul class="sidebar-list" id="natal-sidebar"></ul>
+        </aside>
+
+        <!-- Основной контент -->
+        <main id="natal-main">
+            <!-- Главный калькулятор натальной карты и релокации -->
+            <div class="card" id="natal-calc">
+                <div class="card-header">
+                    <h1 class="card-title">Построить Натальную карту и Карту релокации</h1>
+                </div>
+                <p style="margin-bottom:18px; color:var(--text-muted);">Введите дату, точное время и выберите любой город мира для построения вашей космограммы, сетки домов и подробной женской интерпретации.</p>
+
+                <form class="calc-form" id="natalForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Дата рождения</label>
+                            <input type="date" id="nDate" value="1988-05-15" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Время рождения (местное)</label>
+                            <input type="time" id="nTime" value="14:30" required>
+                        </div>
+                        <div class="form-group city-wrapper">
+                            <label>Место рождения (любой город мира)</label>
+                            <input type="text" class="city-search-input" id="nCity" value="Москва, Россия" data-lat="55.7558" data-lon="37.6173" placeholder="Начните вводить город..." required>
+                            <div class="city-suggestions"></div>
+                        </div>
+                        <div class="form-group city-wrapper">
+                            <label>Город релокации (необязательно)</label>
+                            <input type="text" class="city-search-input" id="rCity" placeholder="Например: Сочи, Париж, Дубай...">
+                            <div class="city-suggestions"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-orange">Рассчитать Натальную карту и расшифровку</button>
+                </form>
+
+                <!-- Блок вывода результатов -->
+                <div id="natalResult" style="display:none;"></div>
+            </div>
+
+            <!-- Контейнер для всех 13 подробных статей раздела -->
+            <div id="natal-articles"></div>
+            <div id="custom-blocks-zone"></div>
+        </main>
+    </div>
+
+    <footer id="site-footer"></footer>
+
+    <script src="astro-engine.js"></script>
+    <script src="content-db.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebar = document.getElementById("natal-sidebar");
+            const articlesBox = document.getElementById("natal-articles");
+
+            AstroDB.natalSubsections.forEach(sec => {
+                sidebar.innerHTML += `<li><a href="#${sec.id}">${sec.title}</a></li>`;
+                if (sec.id !== "natal-calc") {
+                    articlesBox.innerHTML += `
+                    <div class="card" id="${sec.id}">
+                        <div class="card-header"><h2 class="card-title" data-editable="title_${sec.id}">${sec.title}</h2></div>
+                        <div data-editable="body_${sec.id}">${sec.content}</div>
+                    </div>`;
+                }
+            });
+
+            document.getElementById("natalForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const date = document.getElementById("nDate").value;
+const time = document.getElementById("nTime").value;
+const cityInput = document.getElementById("nCity");
+const relocInput = document.getElementById("rCity");
+const lat = parseFloat(cityInput.dataset.lat || 55.75);
+const lon = parseFloat(cityInput.dataset.lon || 37.61);
+const pos = AstroEngine.calculatePositions(date, time, lat, lon);
+let relocHTML = "";
+if (relocInput.value.trim() && relocInput.dataset.lat) {
+const rPos = AstroEngine.calculatePositions(date, time, parseFloat(relocInput.dataset.lat), parseFloat(relocInput.dataset.lon));
+relocHTML = `
+
+Карта релокации на город: ${relocInput.value}
+При переезде ваш новый Асцендент смещается в знак \({rPos.asc.formatted}</strong>, а Середина Неба (карьера) — в знак <strong>\){rPos.mc.formatted}. Венера переходит в \({rPos.venus.house}-й дом</strong>, Юпитер — в <strong>\){rPos.jupiter.house}-й дом.
+`;
+}
+const sunInterp = AstroDB.planetInterpretations.sun[pos.sun.sign.name];
+const moonInterp = AstroDB.planetInterpretations.moon[pos.moon.sign.name];
+const resDiv = document.getElementById("natalResult");
+resDiv.style.display = "block";
+resDiv.innerHTML = `
+
+Ваша Натальная карта (${cityInput.value}, ${date} в ${time})
+
+${AstroEngine.renderNatalSVG(pos)}
+
+Точка / Планета	Положение в знаке	Дом
+☉ Солнце
+	${pos.sun.formatted}	${pos.sun.house} дом
+☽ Луна
+	${pos.moon.formatted}	${pos.moon.house} дом
+ASC Асцендент
+	${pos.asc.formatted}	1 дом
+MC Середина Неба
+	${pos.mc.formatted}	10 дом
+☿ Меркурий
+	${pos.mercury.formatted}	${pos.mercury.house} дом
+♀ Венера
+	${pos.venus.formatted}	${pos.venus.house} дом
+♂ Марс
+	${pos.mars.formatted}	${pos.mars.house} дом
+♃ Юпитер
+	${pos.jupiter.formatted}	${pos.jupiter.house} дом
+♄ Сатурн
+	${pos.saturn.formatted}	${pos.saturn.house} дом
+⊕ Парс Фортуны
+	${pos.parsFortunae.formatted}	${pos.parsFortunae.house} дом
+⚸ Чёрная Луна (Лилит)
+	${pos.lilith.formatted}	${pos.lilith.house} дом
+⚹ Белая Луна (Селена)
+	${pos.selena.formatted}	${pos.selena.house} дом
+
+${relocHTML}
+Подробная женская интерпретация вашей карты
+
+☉ Ваше Солнце в знаке ${pos.sun.sign.name} (${pos.sun.house}-й дом)
+${sunInterp}
+☽ Ваша Луна в знаке ${pos.moon.sign.name} (${pos.moon.house}-й дом)
+${moonInterp}
+ASC Асцендент в знаке ${pos.asc.sign.name} и Управитель (${pos.asc.sign.ruler})
+Окружающие считывают вас через энергию знака \({pos.asc.sign.name} (стихия: \){pos.asc.sign.element}). Ваш стиль и первая подача себя должны подчёркивать достоинства этого знака.
+⊕ Парс Фортуны в ${pos.parsFortunae.house}-м доме (${pos.parsFortunae.sign.name}) и Деньги
+Ваш естественный канал удачи и финансовой поддержки открывается через темы \({pos.parsFortunae.house}-го дома. Юпитер в \){pos.jupiter.house}-м доме усиливает возможности масштабирования и роста дохода.
+`;
+});
+});
+
+
+
+```

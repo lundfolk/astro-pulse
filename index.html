@@ -1,0 +1,97 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Астро Пульс — твой астрологический сценарий</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="site-header"></header>
+
+    <!-- Главный баннер и Ежедневная характеристика дня -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <h1 data-editable="hero-h1">Астро Пульс — <span>твой астрологический сценарий</span></h1>
+                <p data-editable="hero-desc" style="font-size:1.1rem; color:#e0f2fe; margin-bottom:25px;">
+                    Персональная астрология для женщин 20–75 лет: точный расчёт натальной карты по всем городам мира, транзиты, соляр, синастрия, лунный календарь красоты и здоровья.
+                </p>
+                <div style="display:flex; gap:14px; flex-wrap:wrap;">
+                    <a href="natal.html#natal-calc" class="btn btn-orange">Построить натальную карту</a>
+                    <a href="lunar.html" class="btn btn-sky">Лунный календарь на сегодня</a>
+                </div>
+            </div>
+
+            <!-- Ежедневная характеристика дня -->
+            <div class="daily-card" id="daily-forecast-widget">
+                <span class="daily-badge" id="today-date-badge">Характеристика дня</span>
+                <h3 style="color:#ffffff; margin-bottom:10px;" id="today-lunar-title">Загрузка космической погоды...</h3>
+                <p style="color:#e0f2fe; font-size:0.95rem; margin-bottom:12px;" id="today-lunar-text"></p>
+                <div style="background:rgba(7,9,14,0.6); padding:12px; border-radius:8px; font-size:0.9rem;">
+                    <strong style="color:#f97316;">Совет дня для женщин:</strong>
+                    <span id="today-woman-tip" style="color:#ffffff;"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="section">
+        <div class="container">
+            <h2 style="color:var(--dark-blue); margin-bottom:25px; border-left:5px solid var(--orange); padding-left:15px;">Ключевые разделы портала</h2>
+            
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+                <div class="card">
+                    <h3 style="color:var(--blue); margin-bottom:10px;">✦ Натальная карта и Релокация</h3>
+                    <p style="color:var(--text-muted); margin-bottom:15px;">Расчёт Солнца, Луны, Асцендента, Середины Неба, Парса Фортуны, финансового потенциала и подбор города для переезда.</p>
+                    <a href="natal.html" class="btn btn-blue">Перейти в раздел →</a>
+                </div>
+
+                <div class="card">
+                    <h3 style="color:var(--blue); margin-bottom:10px;">✦ Предсказательная астрология</h3>
+                    <p style="color:var(--text-muted); margin-bottom:15px;">Онлайн-калькуляторы Транзитов, Соляра на год, Прогрессий, Дирекций, Синастрии (совместимости) и Планетарных часов.</p>
+                    <a href="predictive.html" class="btn btn-blue">Открыть прогнозы →</a>
+                </div>
+
+                <div class="card">
+                    <h3 style="color:var(--blue); margin-bottom:10px;">✦ Лунный календарь и Лилит</h3>
+                    <p style="color:var(--text-muted); margin-bottom:15px;">Календарь стрижек, расчёт Чёрной и Белой Луны, Луна без курса, лунный день рождения, зачатие, лечение зубов и диета.</p>
+                    <a href="lunar.html" class="btn btn-blue">Открыть календарь →</a>
+                </div>
+
+                <div class="card">
+                    <h3 style="color:var(--blue); margin-bottom:10px;">✦ Камни-талисманы и Форум</h3>
+                    <p style="color:var(--text-muted); margin-bottom:15px;">Подбор драгоценных и полудрагоценных камней по знаку зодиака, частые вопросы, женские обсуждения и связь с астрологом.</p>
+                    <a href="stones-community.html" class="btn btn-orange">Изучить камни →</a>
+                </div>
+            </div>
+
+            <!-- Зона для новых пользовательских блоков (CMS) -->
+            <div id="custom-blocks-zone"></div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="astro-engine.js"></script>
+    <script src="content-db.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Автоматический расчёт ежедневной характеристики дня на текущую дату
+        document.addEventListener("DOMContentLoaded", () => {
+            const today = new Date().toISOString().split("T")[0];
+            const info = AstroEngine.calculateLunarInfo(today);
+            const planets = AstroEngine.calculatePositions(today, "12:00");
+
+            document.getElementById("today-date-badge").textContent = `Сегодня • ${new Date().toLocaleDateString("ru-RU")} • ${info.lunarDay}-й лунный день`;
+            document.getElementById("today-lunar-title").textContent = `${info.phase} • Луна в знаке ${info.moonSign.symbol} ${info.moonSign.name}`;
+            document.getElementById("today-lunar-text").textContent = `${info.phaseAdvice} Солнце в знаке ${planets.sun.sign.name}, Венера в знаке ${planets.venus.sign.name}.`;
+            document.getElementById("today-woman-tip").textContent = info.haircutGood
+                ? "Благоприятный день для ухода за волосами, обновления образа и мягкого планирования бюджета."
+                : "День перезагрузки: отложите стрижку и радикальные решения, уделите время отдыху, воде и восстановлению ресурса.";
+        });
+    </script>
+</body>
+</html>
